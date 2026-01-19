@@ -1,0 +1,62 @@
+
+<div class="search-container">
+  <div>
+    <label for="email">Email:</label>
+    <input type="text" id="email" [(ngModel)]="searchEmail" placeholder="Enter email" />
+    <button (click)="filterByEmail(searchEmail); searchUsers()">Search</button>
+  </div>
+
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" [(ngModel)]="searchUsername" placeholder="Enter username" />
+    <button (click)="filterByUsername(searchUsername); searchUsers()">Search</button>
+  </div>
+
+  <div>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" [(ngModel)]="searchFirstName" placeholder="Enter first name" />
+    <button (click)="filterByFirstName(searchFirstName); searchUsers()">Search</button>
+  </div>
+
+  <div>
+    <button (click)="loadAllUsers()" style="background-color: #28a745;">Show All Users</button>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col mb-4" *ngFor="let user of filteredUsers">
+      <mat-card class="card h-100">
+        <mat-card-header>
+          <mat-card-title>{{ user.username }}</mat-card-title>
+          <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+        </mat-card-header>
+        <div class="card-content">
+          <div class="card-content-row">
+            <div class="card-content-column">
+              <p><strong>User ID:</strong> {{ user.user_id }}</p>
+              <p><strong>First Name:</strong> {{ user.first_name }}</p>
+              <p><strong>User Focus:</strong> {{ user.user_focus || 'N/A' }}</p>
+              <p><strong>Looking For:</strong> {{ user.look_for_gender || 'N/A' }}</p>
+              <p><strong>Top User:</strong> {{ user.top_user ? 'Yes' : 'No' }}</p>
+            </div>
+            <div class="card-content-column">
+              <p><strong>Connection Type:</strong> {{ user.connection_type || 'N/A' }}</p>
+              <p><strong>Age Preference:</strong> {{ user.age_preference || 'N/A' }}</p>
+              <p><strong>Interests:</strong> {{ user.interests || 'N/A' }}</p>
+              <p><strong>Summary:</strong> {{ user.summary || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+        <mat-card-actions>
+          <a [routerLink]="['/timeline']" [queryParams]="{userId: user.user_id}" class="timeline-btn">
+            <i class="fa fa-clock"></i> View Timeline
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+

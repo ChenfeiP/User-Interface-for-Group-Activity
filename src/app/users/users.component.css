@@ -60,7 +60,7 @@ h1 {
 .school-list li:last-child {
   border-bottom: none;
 }
-
+/* activeplayer.component.css */
 .container {
   margin-top: 20px;
 }
@@ -113,6 +113,7 @@ h1 {
 .card-content-column p {
   margin: 0;
 }
+
 
 
 .search-container {
@@ -175,3 +176,42 @@ h1 {
   flex: 1;
 }
 
+.timeline-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 10px;
+  background-color: #2196F3;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.timeline-btn:hover {
+  background-color: #1976D2;
+}
+
+.timeline-btn i {
+  margin-right: 5px;
+}
+
+.timeline-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 10px;
+  background-color: #2196F3;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.timeline-btn:hover {
+  background-color: #1976D2;
+}
+
+.timeline-btn i {
+  margin-right: 5px;
+}

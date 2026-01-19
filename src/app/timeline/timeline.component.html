@@ -1,0 +1,122 @@
+<div class="timeline-container">
+  <h1>User Activity Timeline</h1>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <h3>Search User Timeline</h3>
+    <div class="search-inputs">
+      <div class="search-field">
+        <label for="email">Email:</label>
+        <input type="text" id="email" [(ngModel)]="searchEmail" placeholder="e.g., gaoyangyijun@gmail.com" />
+      </div>
+      <div class="search-field">
+        <label for="username">Username:</label>
+        <input type="text" id="username" [(ngModel)]="searchUsername" placeholder="e.g., johndoe" />
+      </div>
+      <div class="search-field">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" [(ngModel)]="searchFirstName" placeholder="e.g., John" />
+      </div>
+      <button class="search-btn" (click)="searchTimeline()">Search Timeline</button>
+    </div>
+  </div>
+
+  <!-- User Info Section -->
+  <div class="user-info" *ngIf="user">
+    <h2>Timeline for: {{ user.username }} ({{ user.email }})</h2>
+    <p><strong>Name:</strong> {{ user.first_name }}</p>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <p>Loading timeline...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error" *ngIf="error && !loading">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Timeline Display -->
+  <div class="timeline" *ngIf="!loading && !error && timeline.length > 0">
+    <div class="timeline-item" *ngFor="let activity of timeline" 
+         [style.border-left-color]="getActivityColor(activity.activity_type)">
+      
+      <div class="timeline-marker" [style.background-color]="getActivityColor(activity.activity_type)">
+        <span class="activity-icon">{{ getActivityIcon(activity.activity_type) }}</span>
+      </div>
+
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <span class="activity-type">{{ getActivityLabel(activity.activity_type) }}</span>
+          <span class="activity-role">{{ activity.activity_role }}</span>
+          <span class="activity-time">{{ formatDate(activity.activity_time) }}</span>
+        </div>
+
+        <div class="timeline-body">
+          <div class="group-info" *ngIf="activity.group_id && activity.group_id !== 'N/A'">
+            <h4>{{ activity.group_subject }}</h4>
+            <p *ngIf="activity.group_location">
+              <strong>📍 Location:</strong> {{ activity.group_location }}
+            </p>
+            <p *ngIf="activity.group_time">
+              <strong>🗓️ Group Time:</strong> {{ formatDate(activity.group_time) }}
+            </p>
+            <p><strong>🆔 Group ID:</strong> {{ activity.group_id }}</p>
+          </div>
+
+          <!-- Application-specific fields -->
+          <div class="app-info" *ngIf="activity.activity_type === 'applied_to_group'">
+            <p><strong>Status:</strong> 
+              <span [class.status-pending]="activity.app_status === 'pending'"
+                    [class.status-approved]="activity.app_status === 'approved'"
+                    [class.status-rejected]="activity.app_status === 'rejected'">
+                {{ activity.app_status }}
+              </span>
+            </p>
+            <p *ngIf="activity.app_decided_at">
+              <strong>Decided At:</strong> {{ formatDate(activity.app_decided_at) }}
+            </p>
+          </div>
+
+          <!-- Invite-specific fields -->
+          <div class="invite-info" *ngIf="activity.activity_type === 'created_invite'">
+            <p><strong>Invite Code:</strong> <code>{{ activity.invite_code }}</code></p>
+            <p *ngIf="activity.invite_expires_at">
+              <strong>Expires At:</strong> {{ formatDate(activity.invite_expires_at) }}
+            </p>
+            <p><strong>Usage Count:</strong> {{ activity.invite_usage_count }}</p>
+          </div>
+
+          <!-- Redemption-specific fields -->
+          <div class="redemption-info" *ngIf="activity.activity_type === 'redeemed_invite'">
+            <p><strong>Invite ID:</strong> {{ activity.invite_id }}</p>
+            <p><strong>Redemption ID:</strong> {{ activity.redemption_id }}</p>
+          </div>
+
+          <!-- Expression-specific fields -->
+          <div class="expression-info" *ngIf="activity.activity_type === 'expression'">
+            <p *ngIf="activity.expr_topic"><strong>💭 Topic:</strong> {{ activity.expr_topic }}</p>
+            <p *ngIf="activity.expr_ai_question"><strong>❓ AI Question:</strong> {{ activity.expr_ai_question }}</p>
+            <p *ngIf="activity.expr_user_answer"><strong>💬 User Answer:</strong> {{ activity.expr_user_answer }}</p>
+            <p *ngIf="activity.expr_context"><strong>📝 Context:</strong> {{ activity.expr_context }}</p>
+          </div>
+
+          <!-- Post-specific fields -->
+          <div class="post-info" *ngIf="activity.activity_type === 'user_post'">
+            <p *ngIf="activity.post_content"><strong>📄 Post Content:</strong></p>
+            <div class="post-content" *ngIf="activity.post_content">{{ activity.post_content }}</div>
+            <p *ngIf="activity.post_updated_at && activity.post_updated_at !== activity.post_created_at">
+              <strong>Last Updated:</strong> {{ formatDate(activity.post_updated_at) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && !error && timeline.length === 0 && user">
+    <p>No activity found for this user.</p>
+  </div>
+</div>

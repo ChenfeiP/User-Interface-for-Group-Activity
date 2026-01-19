@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { InactiveplayerComponent } from './inactiveplayer/inactiveplayer.component';
-import { ActiveplayerComponent } from './activeplayer/activeplayer.component';
-import { NewrequestComponent } from './newrequest/newrequest.component';
+import { UsersComponent } from './users/users.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
-  {path:'inactive', component: InactiveplayerComponent},
-  {path:'active', component: ActiveplayerComponent},
-  {path: 'newrequest', component: NewrequestComponent},
+  {path:'users', component: UsersComponent},
+  {path:'timeline', component: TimelineComponent},
   {path:'**', redirectTo:'home'}
 ];
 
